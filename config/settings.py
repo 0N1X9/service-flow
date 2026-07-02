@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Project apps
-    "accounts",
+    "accounts.apps.AccountsConfig",
     "core",
     "clients",
     "services",
@@ -126,6 +126,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "accounts:login"
+
+LOGIN_REDIRECT_URL = "core:dashboard"
+
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
