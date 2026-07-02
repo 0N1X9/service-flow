@@ -1,13 +1,79 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}
+Dashboard
+{% endblock %}
 
 {% block content %}
 
-<h1>Welcome to Service Flow AI</h1>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2>
+                    Welcome back, {{ request.user.username }} 👋
+                </h2>
 
-<p>
-Authentication is working successfully.
-</p>
+                <p class="text-muted">
+                    {{ profile.business_name }}
+                    {% if profile.industry %}
+                    • {{ profile.industry }}
+                    {% endif %}
+                </p>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h3>{{ client_count }}</h3>
+                        <p>Clients</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h3>{{ service_count }}</h3>
+                        <p>Services</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h3>{{ quote_count }}</h3>
+                        <p>Quotes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4>Quick Actions</h4>
+                <hr>
+                <button class="btn btn-primary w-100 mb-2" disabled>
+                    Add Client
+                </button>
+
+                <button class="btn btn-primary w-100 mb-2" disabled>
+                    Create Service Request
+                </button>
+
+                <button class="btn btn-primary w-100" disabled>
+                    Generate Quote
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

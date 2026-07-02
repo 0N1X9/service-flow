@@ -5,4 +5,9 @@ app_name = "core"
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
+    path(
+        "profile/",
+        views.business_profile,
+        name="business-profile",
+    ),
 ]
