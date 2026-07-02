@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Business Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="mb-4">Business Profile</h2>
+
+        <p class="text-muted">
+            Keep your business information up to date.
+            This information will be used throughout the application.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                Save Changes
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
