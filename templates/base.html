@@ -23,6 +23,7 @@
                 {% if user.is_authenticated %}
                 <a class="btn btn-outline-light me-2" href="{% url 'core:dashboard' %}">Dashboard</a>
                 <a href="{% url 'clients:list' %}" class="btn btn-outline-light me-2">Clients</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline-light me-2">Jobs</a>
                 <a class="btn btn-outline-light me-2" href="{% url 'core:business-profile' %}">Business Profile</a>
 
                 <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
