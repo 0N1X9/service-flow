@@ -45,10 +45,12 @@ Dashboard
 
             <div class="col-md-4">
                 <div class="card text-center shadow-sm">
-                    <div class="card-body">
-                        <h3>{{ quote_count }}</h3>
-                        <p>Quotes</p>
-                    </div>
+                    <a href="{% url 'services:list' %}">
+                        <div class="card-body">
+                            <h3>{{ quote_count }}</h3>
+                            <p>Quotes</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
