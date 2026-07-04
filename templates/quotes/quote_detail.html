@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Generated Quote{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Generated Quote</h2>
+    <a href="{% url 'services:list' %}" class="btn btn-secondary">Back to Jobs</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <strong>{{ quote.service_request.title }}</strong>
+    </div>
+
+    <div class="card-body">
+        <p><strong>Client:</strong>{{ quote.service_request.client.name }}</p>
+        <p><strong>Estimated Price:</strong>
+            {% if quote.price %}
+                £{{ quote.price }}
+            {% else %}
+                To be confirmed
+            {% endif %}
+        </p>
+
+        <hr>
+
+        <pre style="white-space: pre-wrap; font-family: inherit;">{{ quote.content }}</pre>
+
+    </div>
+
+</div>
+
+{% endblock %}

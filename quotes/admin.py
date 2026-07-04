@@ -9,6 +9,7 @@ class QuoteAdmin(admin.ModelAdmin):
         "service_request",
         "price",
         "created_at",
+        "updated_at",
     )
 
     search_fields = (
