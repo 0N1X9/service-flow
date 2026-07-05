@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Upgrade{% endblock %}
+
+{% block content %}
+
+<h2>Upgrade to Premium</h2>
+
+<hr>
+
+<h4>Free Plan</h4>
+
+<ul>
+    <li>Unlimited Clients</li>
+    <li>Unlimited Service Requests</li>
+    <li>{{ limit }} AI Quotes / month</li>
+</ul>
+
+<hr>
+
+<h4>Premium - £9.99/month</h4>
+
+<ul>
+    <li>Unlimited AI Quotes</li>
+    <li>Future Smart Accounts</li>
+    <li>Future AI Assistant</li>
+    <li>Future Analytics</li>
+</ul>
+
+<hr>
+
+<p>
+    You have used <strong>{{ used_quotes }}</strong> of
+    <strong>{{ limit }}</strong> free AI quotes this month.
+</p>
+
+<a href="{% url 'payments:checkout' %}" class="btn btn-success">
+    Upgrade to Premium (£9.99/month)
+</a>
+
+{% endblock %}
