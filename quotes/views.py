@@ -8,6 +8,8 @@ from services.models import ServiceRequest
 
 from .models import Quote
 
+from payments.services import can_generate_quote
+
 
 @login_required
 def quote_generate(request, service_id):
@@ -16,6 +18,16 @@ def quote_generate(request, service_id):
         pk=service_id,
         client__business=request.user.businessprofile,
     )
+
+    if not can_generate_quote(request.user):
+        messages.error(
+            request,
+            (
+                "You have reached your monthly AI quote limit. "
+                "Upgrade to Premium for unlimited quotes."
+            )
+        )
+        return redirect("payments:upgrade")
 
     quote_text = generate_quote(service)
 
