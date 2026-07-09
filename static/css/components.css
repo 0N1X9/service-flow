@@ -1,0 +1,173 @@
+/* ===========================
+   CARDS
+=========================== */
+
+.sf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: all .25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: .75rem;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: .25rem;
+}
+
+.stat-card p {
+    margin: 0;
+    color: #6B7280;
+}
+
+.ai-card,
+.premium-card {
+    height: 100%;
+}
+
+.ai-progress {
+    height: 12px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #ECECEC;
+}
+
+.ai-progress .progress-bar {
+    background: var(--premium);
+}
+
+/* ===========================
+   PAGE HEADER
+=========================== */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btn {
+    color: var(--text);
+    border-radius: 10px;
+    transition: .2s;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: #4338CA;
+    border-color: #4338CA;
+}
+
+
+/* ===========================
+   DASHBOARD COMPONENTS
+=========================== */
+
+.dashboard-section {
+    margin-bottom: 2rem;
+}
+
+.quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.quick-actions .btn {
+    min-width: 180px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6B7280;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+/* part of the initial setup */
+/* .premium-badge {
+    background: var(--premium);
+    color: white;
+    padding: .5rem .75rem;
+    border-radius: 999px;
+    font-size: .8rem;
+} */
+
+.text-purple {
+    color: var(--premium);
+}
+
+
+/* ===========================
+   STATUS BADGES
+=========================== */
+
+.status-badge {
+    display: inline-block;
+    padding: .4rem .8rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.status-new {
+    background: #3B82F6;
+}
+
+.status-quoted {
+    background: var(--premium);
+}
+
+.status-scheduled {
+    background: #06B6D4;
+}
+
+.status-in_progress {
+    background: #F59E0B;
+}
+
+.status-completed {
+    background: #10B981;
+}
+
+.status-cancelled {
+    background: #EF4444;
+}

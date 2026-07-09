@@ -1,0 +1,64 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.navbar {
+    background: var(--surface);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* ===========================
+   LINKS
+=========================== */
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: .2s;
+}
+
+a:hover {
+    color: #4338CA;
+}
+
+/* ===========================
+   HEADINGS
+=========================== */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.page-title {
+    margin-bottom: 2rem;
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+
+.table td,
+.table th {
+    vertical-align: middle;
+}

@@ -1,0 +1,12 @@
+.mb-large {
+    margin-bottom: 2rem;
+}
+
+.text-muted-small {
+    color: #6B7280;
+    font-size: .9rem;
+}
+
+.shadow-soft {
+    box-shadow: var(--shadow);
+}
