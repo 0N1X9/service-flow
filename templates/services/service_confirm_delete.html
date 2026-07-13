@@ -4,40 +4,20 @@
 
 {% block content %}
 
-<div class="card shadow-sm">
+<div class="sf-card text-center">
+    <div class="empty-state py-4">
+        <i class="bi bi-trash text-danger"></i><h3>Delete Job</h3>
+        <p>Are you sure you want to permanently delete <strong> {{ service.title }}</strong>?</p>
+        <p class="text-muted-small">This action cannot be undone.</p>
 
-    <div class="card-body">
-
-        <h2>Delete Job</h2>
-
-        <p>
-
-            Are you sure you want to delete
-
-            <strong>{{ service.title }}</strong>?
-
-        </p>
-
-        <form method="post">
+        <form method="post" class="mt-4">
 
             {% csrf_token %}
 
-            <button class="btn btn-danger">
-
-                Delete
-
-            </button>
-
-            <a href="{% url 'services:list' %}" class="btn btn-secondary">
-
-                Cancel
-
-            </a>
-
+            <button class="btn btn-danger">Delete Job</button>
+            <a href="{% url 'services:list' %}" class="btn btn-outline-primary">Cancel</a>
         </form>
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -6,72 +6,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Service Flow AI{% endblock %}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function () {
+            const theme = localStorage.getItem("theme") || "system";
+            let applied = theme;
+            if (theme === "system") {
+                applied = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            document.documentElement.setAttribute("data-theme", applied);
+        })();
+    </script>
 
     {% load static %}
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
+    <!-- Project CSS -->
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg shadow-sm" >
-        <div class="container py-4">
+    <nav class="navbar navbar-expand-lg sf-navbar shadow-sm">
+        <div class="container">
+            <!-- Brand -->
             <a class="navbar-brand" href="{% url 'core:dashboard' %}">
-                <span class="fw-bold"><i class="bi bi-robot me-1"></i>Service Flow AI</span>
+                <div class="brand-logo">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <div>
+                    <div class="brand-title">
+                        Service Flow <span class="text-purple">AI</span>
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Smart Business Management
+                    </div>
+                </div>
             </a>
-            <div class="ms-auto">
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
 
                 {% if user.is_authenticated %}
-                <a class="btn btn-outline-light me-2" href="{% url 'core:dashboard' %}">Dashboard</a>
-                <a href="{% url 'clients:list' %}" class="btn btn-outline-light me-2">Clients</a>
-                <a href="{% url 'services:list' %}" class="btn btn-outline-light me-2">Jobs</a>
-                <a class="btn btn-outline-light me-2" href="{% url 'core:business-profile' %}">Business Profile</a>
 
-                <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
+                <!-- Navigation -->
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+                            href="{% url 'core:dashboard' %}"><i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
 
-                    {% csrf_token %}
-                    <button class="btn btn-danger" type="submit">Logout</button>
-                </form>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.namespace == 'clients' %}active{% endif %}"
+                            href="{% url 'clients:list' %}"><i class="bi bi-people me-1"></i>Clients
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.namespace == 'services' %}active{% endif %}"
+                            href="{% url 'services:list' %}"><i class="bi bi-tools me-1"></i>Jobs
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'business-profile' %}active{% endif %}"
+                            href="{% url 'core:business-profile' %}"><i class="bi bi-building me-1"></i>Profile
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- User Area -->
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-summary">
+                        <div class="user-name">
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ request.user.first_name|default:request.user.username }}
+                        </div>
+
+                        <div class="user-plan">
+                            {% if subscription and subscription.is_active %}
+                            <span class="text-purple">
+                                <i class="bi bi-stars me-1"></i>Premium
+                            </span>
+                            {% else %}
+                            Free Plan
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <button id="theme-toggle" class="btn btn-outline-primary me-2" type="button" title="Change theme">💻
+                    </button>
+
+                    <form method="post" action="{% url 'accounts:logout' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">
+                            <i class="bi bi-box-arrow-right me-1"></i>Logout
+                        </button>
+                    </form>
+
+                </div>
 
                 {% else %}
-                <a class="btn btn-outline-light me-2" href="{% url 'accounts:login' %}">Login</a>
 
-                <a class="btn btn-primary" href="{% url 'accounts:register' %}">Register</a>
+                <div class="ms-auto d-flex gap-2">
+                    <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Login</a>
+                    <a class="btn btn-primary" href="{% url 'accounts:register' %}">Register</a>
+                </div>
+
                 {% endif %}
 
             </div>
         </div>
     </nav>
 
-    <div class="container py-4 mt-4">
-
-        {% if messages %}
-        {% for message in messages %}
-
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-
-        {% endfor %}
-        {% endif %}
+    <main class="container py-5">
+        {% include "includes/messages.html" %}
 
         {% block content %}
         {% endblock %}
 
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
 
 </body>
 

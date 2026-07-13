@@ -13,25 +13,20 @@ from .forms import BusinessProfileForm
 @login_required
 def dashboard(request):
     profile = request.user.businessprofile
-
     subscription = Subscription.objects.filter(
         user=request.user
     ).first()
-
     client_count = Client.objects.filter(
         business=profile
     ).count()
-
     service_count = ServiceRequest.objects.filter(
         client__business=profile
     ).count()
-
     quote_count = Quote.objects.filter(
         service_request__client__business=profile
     ).count()
 
     monthly_limit = None if subscription and subscription.is_active else 3
-
     if monthly_limit:
         usage_percent = min(
             int((quote_count / monthly_limit) * 100),
@@ -39,7 +34,6 @@ def dashboard(request):
         )
     else:
         usage_percent = 100
-
     recent_jobs = (
         ServiceRequest.objects.filter(
             client__business=profile
@@ -47,6 +41,14 @@ def dashboard(request):
         .select_related("client")
         .order_by("-updated_at")[:5]
     )
+    if subscription and subscription.is_active:
+        monthly_limit = None
+        usage_percent = 0
+        remaining_quotes = None
+    else:
+        monthly_limit = 3
+        usage_percent = min((quote_count / monthly_limit) * 100, 100)
+        remaining_quotes = max(monthly_limit - quote_count, 0)
 
     context = {
         "profile": profile,
@@ -55,6 +57,7 @@ def dashboard(request):
         "service_count": service_count,
         "quote_count": quote_count,
         "monthly_limit": monthly_limit,
+        "remaining_quotes": remaining_quotes,
         "usage_percent": usage_percent,
         "recent_jobs": recent_jobs,
     }
@@ -69,26 +72,20 @@ def dashboard(request):
 @login_required
 def business_profile(request):
     profile = request.user.businessprofile
-
     if request.method == "POST":
         form = BusinessProfileForm(
             request.POST,
             instance=profile,
         )
-
         if form.is_valid():
             form.save()
-
             messages.success(
                 request,
                 "Business profile updated successfully.",
             )
-
             return redirect("core:business-profile")
-
     else:
         form = BusinessProfileForm(instance=profile)
-
     return render(
         request,
         "core/business_profile.html",

@@ -14,9 +14,15 @@ def service_list(request):
 
     services = (
         ServiceRequest.objects.filter(client__business=profile)
-        .select_related("client")
+        .select_related("client", "quote")
         .order_by("-created_at")
     )
+
+    for service in services:
+        service.quote_outdated = (
+            hasattr(service, "quote") 
+            and service.updated_at > service.quote.updated_at
+        )
 
     return render(
         request,
@@ -35,26 +41,15 @@ def service_create(request):
         form = ServiceRequestForm(request.POST)
 
         # Only allow the user's own clients
-        form.fields["client"].queryset = (
-            Client.objects.filter(business=profile)
-        )
+        form.fields["client"].queryset = Client.objects.filter(business=profile)
 
         if form.is_valid():
             form.save()
-
-            messages.success(
-                request,
-                "Job created successfully.",
-            )
-
+            messages.success(request, "Job created successfully.",)
             return redirect("services:list")
-
     else:
         form = ServiceRequestForm()
-
-        form.fields["client"].queryset = (
-            Client.objects.filter(business=profile)
-        )
+        form.fields["client"].queryset = Client.objects.filter(business=profile)
 
     return render(
         request,
@@ -77,32 +72,15 @@ def service_update(request, pk):
     )
 
     if request.method == "POST":
-        form = ServiceRequestForm(
-            request.POST,
-            instance=service,
-        )
-
-        form.fields["client"].queryset = (
-            Client.objects.filter(business=profile)
-        )
-
+        form = ServiceRequestForm(request.POST, instance=service,)
+        form.fields["client"].queryset = Client.objects.filter(business=profile)
         if form.is_valid():
             form.save()
-
-            messages.success(
-                request,
-                "Job updated successfully.",
-            )
-
+            messages.success(request, "Job updated successfully.",)
             return redirect("services:list")
-
     else:
         form = ServiceRequestForm(instance=service)
-
-        form.fields["client"].queryset = (
-            Client.objects.filter(business=profile)
-        )
-
+        form.fields["client"].queryset = Client.objects.filter(business=profile)
     return render(
         request,
         "services/service_form.html",
@@ -125,14 +103,8 @@ def service_delete(request, pk):
 
     if request.method == "POST":
         service.delete()
-
-        messages.success(
-            request,
-            "Job deleted successfully.",
-        )
-
+        messages.success(request, "Job deleted successfully.",)
         return redirect("services:list")
-
     return render(
         request,
         "services/service_confirm_delete.html",

@@ -13,35 +13,35 @@ def generate_mock_quote(service_request):
     )
 
     return f"""
-QUOTATION
+        QUOTATION
 
-Date: {date.today():%d %B %Y}
+        Date: {date.today():%d %B %Y}
 
-Dear {service_request.client.name},
+        Dear {service_request.client.name},
 
-Thank you for contacting us regarding your request.
+        Thank you for contacting us regarding your request.
 
-Job:
-{service_request.title}
+        Job:
+        {service_request.title}
 
-Description:
-{service_request.description}
+        Description:
+        {service_request.description}
 
-Scope of Work
+        Scope of Work
 
-• Supply labour required for the work
-• Complete the requested service professionally
-• Test completed work before handover
-• Leave the work area clean and tidy
+        • Supply labour required for the work
+        • Complete the requested service professionally
+        • Test completed work before handover
+        • Leave the work area clean and tidy
 
-Estimated Price:
-{price}
+        Estimated Price:
+        {price}
 
-This quotation is valid for 30 days.
+        This quotation is valid for 30 days.
 
-If you have any questions, please don't hesitate to contact us.
+        If you have any questions, please don't hesitate to contact us.
 
-Kind regards,
+        Kind regards,
 
-Service Flow AI
-"""
+        Service Flow AI
+    """

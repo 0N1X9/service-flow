@@ -4,30 +4,45 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Jobs</h2>
-    <a href="{% url 'services:add' %}" class="btn btn-primary">New Job</a>
+<div class="page-header">
+    <div>
+        <h2 class="section-title"><i class="bi bi-tools"></i>Jobs</h2>
+        <p class="text-muted">Manage your jobs and AI-generated quotations.</p>
+    </div>
+
+    <a href="{% url 'services:add' %}" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>New Job</a>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        {% if services %}
-        <table class="table table-hover">
+<div class="sf-card">
+
+    {% if services %}
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Job</th>
                     <th>Client</th>
                     <th>Status</th>
                     <th>Estimated Price</th>
-                    <th></th>
+                    <th>Quote</th>
+                    <th class="text-end">Actions</th>
                 </tr>
             </thead>
+
             <tbody>
                 {% for service in services %}
                 <tr>
-                    <td>{{ service.title }}</td>
+                    <td><strong>{{ service.title }}</strong></td>
                     <td>{{ service.client.name }}</td>
-                    <td>{{ service.get_status_display }}</td>
+                    <td>
+                        <div class="d-flex flex-column gap-1">
+                            <span class="status-badge status-{{ service.status|lower }}">
+                                {{ service.get_status_display }}
+                            </span>
+                        </div>
+                    </td>
+
                     <td>
                         {% if service.estimated_price %}
                         £{{ service.estimated_price }}
@@ -35,26 +50,50 @@
                         —
                         {% endif %}
                     </td>
-
-                    <td class="text-end">
-                        <a href="{% url 'services:edit' service.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <td>
                         {% if service.quote %}
-                        <a href="{% url 'quotes:detail' service.quote.pk %}" class="btn btn-info btn-sm">View Quote</a>
-                        <a href="{% url 'quotes:generate' service.pk %}" class="btn btn-success btn-sm">Regenerate Quote</a>
+                        <a href="{% url 'quotes:detail' service.quote.pk %}" class="btn btn-sm btn-info">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </a>
+
                         {% else %}
-                        <a href="{% url 'quotes:generate' service.pk %}" class="btn btn-success btn-sm">Generate Quote</a>
+                        <a href="{% url 'quotes:generate' service.pk %}" class="btn btn-sm btn-success">
+                            <i class="bi bi-robot"></i>
+                        </a>
+
                         {% endif %}
-                        <a href="{% url 'services:delete' service.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                    <td class="text-end">                        
+                        <a href="{% url 'services:edit' service.pk %}" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="{% url 'services:delete' service.pk %}" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </td>
                 </tr>
+
                 {% endfor %}
+
             </tbody>
         </table>
-
-        {% else %}
-        <p>No jobs yet.</p>
-        {% endif %}
     </div>
+
+    {% else %}
+
+    <div class="empty-state">
+        <i class="bi bi-tools"></i>
+        <h4>No jobs yet</h4>
+        <p>Create your first job to start generating AI quotations.</p>
+
+        <a href="{% url 'services:add' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Create Job
+        </a>
+    </div>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}
