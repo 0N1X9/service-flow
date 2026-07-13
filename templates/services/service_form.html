@@ -4,36 +4,27 @@
 
 {% block content %}
 
-<div class="card shadow-sm">
-
-    <div class="card-body">
-
-        <h2>{{ title }}</h2>
-
-        <hr>
-
-        <form method="post">
-
-            {% csrf_token %}
-
-            {{ form.as_p }}
-
-            <button class="btn btn-primary" type="submit">
-
-                Save
-
-            </button>
-
-            <a href="{% url 'services:list' %}" class="btn btn-secondary">
-
-                Cancel
-
-            </a>
-
-        </form>
-
+<div class="page-header">
+    <div>
+        <h2 class="section-title"><i class="bi bi-tools"></i>{{ title }}</h2>
+        <p class="text-muted">Enter the job information below.</p>
     </div>
+</div>
 
+<div class="sf-card">
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-check-circle me-2"></i>Save Job
+            </button>
+            <a href="{% url 'services:list' %}" class="btn btn-outline-primary">Cancel</a>
+        </div>
+    </form>
 </div>
 
 {% endblock %}

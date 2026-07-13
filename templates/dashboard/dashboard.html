@@ -6,72 +6,175 @@ Dashboard
 
 {% block content %}
 
-<div class="row">
+<div class="row g-4">
     <div class="col-lg-8">
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h2>
-                    Welcome back, {{ request.user.username }} 👋
-                </h2>
+        <div class="sf-card mb-4 text-center d-flex flex-column justify-content-center align-items-center">
+            <div class="card-body py-3">
+                <div class="page-header my-auto">
+                    <div>
+                        <h2 >
+                            Welcome back,
+                           <span class="text-purple"> {{ request.user.first_name|default:request.user.username }} 👋</span>
+                        </h2>
 
-                <p class="text-muted">
-                    {{ profile.business_name }}
-                    {% if profile.industry %}
-                    • {{ profile.industry }}
-                    {% endif %}
-                </p>
-
+                        <p class="text-muted">Here's an overview of your business:</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card text-center shadow-sm">
-                    <div class="card-body">
-                        <h3>{{ client_count }}</h3>
-                        <p>Clients</p>
-                    </div>
-                </div>
-            </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-xl-3">
+                <a href="{% url 'clients:list' %}">
+                    <div class="sf-card stat-card">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
 
-            <div class="col-md-4">
-                <div class="card text-center shadow-sm">
-                    <div class="card-body">
-                        <h3>{{ service_count }}</h3>
-                        <p>Jobs</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card text-center shadow-sm">
-                    <a href="{% url 'services:list' %}">
-                        <div class="card-body">
-                            <h3>{{ quote_count }}</h3>
-                            <p>Quotes</p>
+                            <h2>{{ client_count }}</h2>
                         </div>
+
+                        <h5>Clients</h5>
+                        <br><br>
+                        <p class="text-muted-small">View customers <i class="bi bi-arrow-right-short"></i></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <a href="{% url 'services:list' %}">
+                    <div class="sf-card stat-card">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">
+                                <i class="bi bi-tools"></i>
+                            </div>
+
+                            <h2>{{ service_count }}</h2>
+                        </div>
+
+                        <h5>Jobs</h5>
+                        <br><br>
+                        <p class="text-muted-small">View jobs <i class="bi bi-arrow-right-short"></i></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <a href="{% url 'services:list' %}">
+                    <div class="sf-card stat-card">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </div>
+
+                            <h2>{{ quote_count }}</h2>
+                        </div>
+
+                        <h5>Quotes</h5>
+                        <br><br>
+                        <p class="text-muted-small">View quotes <i class="bi bi-arrow-right-short"></i></p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="sf-card stat-card mb-0">
+                    <h5 class="mb-3">
+                        <i class="bi bi-stars text-purple me-2"></i>AI Usage
+                    </h5>
+
+                    {% if subscription.is_active %}
+
+                    <div class="alert alert-success mb-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>Unlimited AI Quotes
+                    </div>
+                    <br>
+                    <p class="text-muted-small">Premium benefits.</p>
+
+                    {% else %}
+
+                    <p class="text-muted-small"><strong>{{ quote_count }}</strong> out of
+                        <strong>{{ monthly_limit }}</strong>
+                        quotes used this month.
+                    </p>
+
+                    <div class="progress ai-progress my-2">
+                        <div class="progress-bar" style="width: {{ usage_percent|default_if_none:0 }}%;"></div>
+                    </div>
+
+                    <p class="text-muted-small">{{ remaining_quotes }}
+                        quote{{ remaining_quotes|pluralize }} remaining.
+                    </p>
+
+                    <a href="{% url 'payments:upgrade' %}" class="btn btn-primary upgrade-btn mt-4 mb-1 px-4">
+                        <i class="bi bi-arrow-up-circle me-2"></i>
+                        Upgrade
                     </a>
+
+                    {% endif %}
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h4>Quick Actions</h4>
-                <hr>
-                <a href="{% url 'clients:add' %}" class="btn btn-primary w-100 mb-2">Add Client</a>
+        <div class="sf-card text-center mb-4">
+            <h4 class="mb-4">
+                <i class="bi bi-lightning-charge-fill text-warning"></i>
+                Quick Actions
+            </h4>
 
-                <a href="{% url 'services:add' %}" class="btn btn-primary w-100 mb-2">Create Job</a>
+            <div class="d-flex flex-wrap gap-4 justify-content-center my-3">
+                <a href="{% url 'clients:add' %}" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i>
+                    New Client
+                </a>
 
-                <button class="btn btn-primary w-100" disabled>
-                    Generate Quote
-                </button>
+                <a href="{% url 'services:add' %}" class="btn btn-success">
+                    <i class="bi bi-tools"></i>
+                    New Job
+                </a>
             </div>
         </div>
-    </div>
 
+        <div class="sf-card dashboard-section">
+            <h4 class="mb-4 text-center">
+                <i class="bi bi-clock-history me-2"></i>
+                Recent Activity
+            </h4>
+
+            {% if recent_jobs %}
+
+            <ul class="list-group">
+                {% for job in recent_jobs %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div><strong>{{ job.title }}</strong><br>
+                            <small class="text-muted-small">{{ job.client.name }}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="status-badge status-{{ job.status|lower }}">{{ job.get_status_display }}
+                            </span><br>
+                            <small class="text-muted-small">{{ job.updated_at|timesince }} ago</small>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+
+            <div class="empty-state"><i class="bi bi-tools"></i>
+                <h5>No recent activity</h5>
+                <p>Create your first job to see activity here.</p>
+            </div>
+
+            {% endif %}
+
+        </div>
+    </div>
 </div>
 
 {% endblock %}

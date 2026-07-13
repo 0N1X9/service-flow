@@ -1,0 +1,90 @@
+:root {
+
+    /* Brand */
+    --primary: #4F46E5;
+    --secondary: #0EA5E9;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --premium: #8B5CF6;
+
+    /* Light */
+    --background: #d3f4ff;
+    --surface: #fff9f0;
+    --text: #1F2937;
+    --border: #E5E7EB;
+    --radius: 12px;
+    --shadow:
+        0 8px 30px rgba(0, 0, 0, 0.05);
+
+    /* ==============================
+        Bootstrap Variable Mapping
+    ============================== */
+
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--text);
+    --bs-border-color: var(--border);
+    --bs-card-bg: var(--surface);
+    --bs-card-border-color: var(--border);
+    --bs-table-bg: var(--surface);
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+    --bs-secondary-bg: var(--surface);
+    --bs-tertiary-bg: var(--background);
+    --bs-emphasis-color: var(--text);
+}
+
+[data-theme="dark"] {
+    --background: #111827;
+    --surface: #1F2937;
+    --text: #F3F4F6;
+    --border: #374151;
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+    
+    /* ==============================
+        Bootstrap Variable Mapping
+    ============================== */
+
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--text);
+    --bs-border-color: var(--border);
+    --bs-card-bg: var(--surface);
+    --bs-card-border-color: var(--border);
+    --bs-table-bg: var(--surface);
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+    --bs-secondary-bg: var(--surface);
+    --bs-tertiary-bg: var(--background);
+    --bs-emphasis-color: var(--text);
+}
+
+/* ===========================
+   Bootstrap Text Overrides
+=========================== */
+
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] .text-muted-small {
+    color: #d3d3d3 !important;
+}
+
+[data-theme="dark"] .alert-warning {
+    color: #FCD34D;
+}
+
+[data-theme="dark"] .alert-success {
+    color: #6EE7B7;
+}
+
+[data-theme="dark"] .alert-danger,
+[data-theme="dark"] .alert-error {
+    color: #FCA5A5;
+}
+
+[data-theme="dark"] .alert-info {
+    color: #7DD3FC;
+}
+
+[data-theme="dark"] .navbar-toggler-icon {
+    color: white;
+}

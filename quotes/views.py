@@ -61,10 +61,15 @@ def quote_detail(request, pk):
         service_request__client__business=request.user.businessprofile,
     )
 
+    quote_outdated = (
+        quote.service_request.updated_at > quote.updated_at
+    )
+
     return render(
         request,
         "quotes/quote_detail.html",
         {
             "quote": quote,
+            "quote_outdated": quote_outdated,
         },
     )
