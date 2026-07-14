@@ -44,6 +44,6 @@ def generate_quote(service_request):
 
         return response.output_text
 
-    except OpenAIError as e:
-        print(f"OpenAI Error: {e}")
-        raise
+    except Exception as e:
+        print("OpenAI Error:", e)
+        return generate_mock_quote(service_request)

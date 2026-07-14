@@ -13,35 +13,42 @@ def generate_mock_quote(service_request):
     )
 
     return f"""
-        QUOTATION
 
-        Date: {date.today():%d %B %Y}
+We are very sorry, but the AI service is temporarily unavailable.
+A demo quote has been generated instead.
 
-        Dear {service_request.client.name},
+We are working hard on fixing the issue and restore functionality.
+We thank you very much for your patience and understanding!
 
-        Thank you for contacting us regarding your request.
+QUOTATION
 
-        Job:
-        {service_request.title}
+Date: {date.today():%d %B %Y}
 
-        Description:
-        {service_request.description}
+Dear {service_request.client.name},
 
-        Scope of Work
+Thank you for contacting us regarding your request.
 
-        • Supply labour required for the work
-        • Complete the requested service professionally
-        • Test completed work before handover
-        • Leave the work area clean and tidy
+Job:
+{service_request.title}
 
-        Estimated Price:
-        {price}
+Description:
+{service_request.description}
 
-        This quotation is valid for 30 days.
+Scope of Work
 
-        If you have any questions, please don't hesitate to contact us.
+• Supply labour required for the work
+• Complete the requested service professionally
+• Test completed work before handover
+• Leave the work area clean and tidy
 
-        Kind regards,
+Estimated Price:
+{price}
 
-        Service Flow AI
-    """
+This quotation is valid for 30 days.
+
+If you have any questions, please don't hesitate to contact us.
+
+Kind regards,
+
+Service Flow AI
+"""
