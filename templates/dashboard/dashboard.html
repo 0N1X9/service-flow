@@ -8,22 +8,23 @@ Dashboard
 
 <div class="row g-4">
     <div class="col-lg-8">
-        <div class="sf-card mb-4 text-center d-flex flex-column justify-content-center align-items-center">
-            <div class="card-body py-3">
-                <div class="page-header my-auto">
+        <div class="sf-card text-center d-flex flex-column justify-content-center align-items-center">
+            <div class="card-body">
+                <div class="page-header mb-0">
                     <div>
-                        <h2 >
+                        <h2>
                             Welcome back,
-                           <span class="text-purple"> {{ request.user.first_name|default:request.user.username }} 👋</span>
+                            <span class="text-purple"> {{ request.user.first_name|default:request.user.username }}
+                                👋</span>
                         </h2>
 
-                        <p class="text-muted">Here's an overview of your business:</p>
+                        <p class="text-muted mt-3">Here's an overview of your business:</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4 mb-4">
             <div class="col-md-6 col-xl-3">
                 <a href="{% url 'clients:list' %}">
                     <div class="sf-card stat-card">
@@ -117,10 +118,7 @@ Dashboard
             </div>
         </div>
 
-    </div>
-
-    <div class="col-lg-4">
-        <div class="sf-card text-center mb-4">
+        <div class="sf-card quick-actions text-center mb-4">
             <h4 class="mb-4">
                 <i class="bi bi-lightning-charge-fill text-warning"></i>
                 Quick Actions
@@ -138,6 +136,11 @@ Dashboard
                 </a>
             </div>
         </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
 
         <div class="sf-card dashboard-section">
             <h4 class="mb-4 text-center">
