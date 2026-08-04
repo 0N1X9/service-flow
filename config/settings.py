@@ -145,6 +145,10 @@ LOGIN_REDIRECT_URL = "core:dashboard"
 
 LOGOUT_REDIRECT_URL = "accounts:login"
 
+AUTHENTICATION_BACKENDS = [
+    "accounts.authentication.UsernameOrEmailBackend",
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
