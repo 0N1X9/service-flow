@@ -24,8 +24,8 @@
 }
 
 .brand-logo {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 12px;
     background: var(--premium);
     color: white;
@@ -39,7 +39,7 @@
 
 .brand-title {
     color: var(--text);
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -47,7 +47,7 @@
 .brand-subtitle {
     color: var(--text);
     opacity: 0.75;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .navbar-nav {
@@ -158,7 +158,7 @@
 .stat-card:hover {
     transform: translateY(-4px);
     box-shadow:
-        0 12px 32px rgba(0,0,0,0.08);
+        0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 .stat-card h6 {
@@ -180,7 +180,7 @@
     height: 90px;
     border-radius: 50%;
     background:
-        rgba(79,70,229,0.06);
+        rgba(79, 70, 229, 0.06);
 }
 
 .stat-card {
@@ -198,7 +198,7 @@
     width: 58px;
     height: 58px;
     border-radius: 14px;
-    background: rgba(79,70,229,0.10);
+    background: rgba(79, 70, 229, 0.10);
     color: var(--primary);
     display: flex;
     align-items: center;
@@ -284,14 +284,8 @@
    QUICK ACTIONS
 =========================== */
 
-.quick-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
 .quick-actions .btn {
-    min-width: 180px;
+    min-width: 240px;
 }
 
 /* ===========================
@@ -398,5 +392,15 @@
 }
 
 .dropdown-item:hover {
-    background: rgba(79,70,229,0.08);
+    background: rgba(79, 70, 229, 0.08);
+}
+
+@media screen and (max-width: 768px) {
+    .brand-title {        
+        font-size: 1.5rem;
+    }
+
+    .brand-subtitle {
+        font-size: 0.8rem;
+    }
 }

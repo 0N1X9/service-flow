@@ -39,7 +39,7 @@ def dashboard(request):
             client__business=profile
         )
         .select_related("client")
-        .order_by("-updated_at")[:5]
+        .order_by("-updated_at")[:6]
     )
     if subscription and subscription.is_active:
         monthly_limit = None
