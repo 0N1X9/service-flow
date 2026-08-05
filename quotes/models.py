@@ -27,5 +27,7 @@ class Quote(models.Model):
         auto_now=True
     )
 
+    is_outdated = models.BooleanField(default=False)
+
     def __str__(self):
         return f"Quote - {self.service_request.title}"
