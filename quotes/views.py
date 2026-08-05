@@ -8,6 +8,8 @@ from services.models import ServiceRequest
 
 from .models import Quote
 
+from .forms import QuoteForm
+
 from payments.services import can_generate_quote
 
 
@@ -36,6 +38,7 @@ def quote_generate(request, service_id):
         defaults={
             "content": quote_text,
             "price": service.estimated_price,
+            "is_outdated": False,
         },
     )
     # Update the service status to "QUOTED" and save it
@@ -61,15 +64,36 @@ def quote_detail(request, pk):
         service_request__client__business=request.user.businessprofile,
     )
 
-    quote_outdated = (
-        quote.service_request.updated_at > quote.updated_at
-    )
+    if request.method == "POST":
+        form = QuoteForm(request.POST, instance=quote)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(
+                request,
+                "Quote updated successfully.",
+            )
+
+            return redirect(
+                "quotes:detail",
+                pk=quote.pk,
+            )
+
+    else:
+        form = QuoteForm(instance=quote)
+
+    quote_outdated = quote.is_outdated
+
+    edit_mode = request.GET.get("edit") == "1"
 
     return render(
         request,
         "quotes/quote_detail.html",
         {
             "quote": quote,
+            "form": form,
+            "edit_mode": edit_mode,
             "quote_outdated": quote_outdated,
         },
     )

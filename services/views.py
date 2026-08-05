@@ -21,7 +21,7 @@ def service_list(request):
     for service in services:
         service.quote_outdated = (
             hasattr(service, "quote") 
-            and service.updated_at > service.quote.updated_at
+            and service.quote.is_outdated
         )
 
     return render(
