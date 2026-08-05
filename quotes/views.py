@@ -73,3 +73,25 @@ def quote_detail(request, pk):
             "quote_outdated": quote_outdated,
         },
     )
+
+
+@login_required
+def quote_list(request):
+    quotes = (
+        Quote.objects.filter(
+            service_request__client__business=request.user.businessprofile
+        )
+        .select_related(
+            "service_request",
+            "service_request__client",
+        )
+        .order_by("-updated_at")
+    )
+
+    return render(
+        request,
+        "quotes/quote_list.html",
+        {
+            "quotes": quotes,
+        },
+    )
