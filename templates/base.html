@@ -87,30 +87,34 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'business-profile' %}active{% endif %}"
-                            href="{% url 'core:business-profile' %}"><i class="bi bi-building me-1"></i>Profile
+                        <a class="nav-link {% if request.resolver_match.namespace == 'quotes' %}active{% endif %}"
+                            href="{% url 'quotes:list' %}"><i class="bi bi-file-earmark-text me-1"></i>Quotes
                         </a>
                     </li>
                 </ul>
 
                 <!-- User Area -->
                 <div class="d-flex align-items-center gap-3">
-                    <div class="user-summary">
-                        <div class="user-name">
-                            <i class="bi bi-person-circle me-1"></i>
-                            {{ request.user.first_name|default:request.user.username }}
-                        </div>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'business-profile' %}active{% endif %}"
+                        href="{% url 'core:business-profile' %}">
+                        <div class="user-summary">
+                            <div class="user-name">
+                                <i class="bi bi-person-circle me-1"></i>
+                                {{ request.user.first_name|default:request.user.username }}
 
-                        <div class="user-plan">
-                            {% if subscription and subscription.is_active %}
-                            <span class="text-purple">
-                                <i class="bi bi-stars me-1"></i>Premium
-                            </span>
-                            {% else %}
-                            Free Plan
-                            {% endif %}
+                            </div>
+
+                            <div class="user-plan">
+                                {% if subscription and subscription.is_active %}
+                                <span class="text-purple text-center">
+                                    <i class="bi bi-stars me-1"></i>Premium
+                                </span>
+                                {% else %}
+                                Free Plan
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                     <button id="theme-toggle" class="btn btn-outline-primary me-2" type="button" title="Change theme">💻
                     </button>

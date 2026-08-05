@@ -6,6 +6,11 @@ app_name = "quotes"
 
 urlpatterns = [
     path(
+        "",
+        views.quote_list,
+        name="list",
+    ),
+    path(
         "generate/<int:service_id>/",
         views.quote_generate,
         name="generate",
