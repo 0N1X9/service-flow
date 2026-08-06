@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -10,7 +11,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Subscription
 
-from .stripe_service import create_checkout_session
+from .stripe_service import (
+    create_checkout_session,
+    create_customer_portal_session,
+)
 
 from .services import (
     FREE_MONTHLY_QUOTE_LIMIT,
@@ -36,6 +40,24 @@ def upgrade(request):
 def checkout(request):
     session = create_checkout_session(request)
     return redirect(session.url)
+
+
+@login_required
+def customer_portal(request):
+    subscription = request.user.subscription
+
+    if not subscription.stripe_customer_id:
+        messages.error(
+            request,
+            (
+                "We couldn't open your billing portal. "
+                "Please contact support if this problem persists."
+            ),
+        )
+        return redirect("payments:upgrade")
+
+    portal = create_customer_portal_session(request)
+    return redirect(portal.url)
 
 
 @login_required
@@ -65,12 +87,16 @@ def stripe_webhook(request):
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
 
+        customer_id = session.get("customer")
+
         user_id = session["metadata"]["user_id"]
 
         user = User.objects.get(id=user_id)
 
         subscription, _ = Subscription.objects.get_or_create(user=user)
 
+        if customer_id:
+            subscription.stripe_customer_id = customer_id
         subscription.plan = "premium"
         subscription.is_active = True
         subscription.save()

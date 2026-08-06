@@ -16,6 +16,11 @@ urlpatterns = [
         name="checkout",
     ),
     path(
+        "portal/",
+        views.customer_portal,
+        name="portal",
+    ),
+    path(
         "success/",
         views.success,
         name="success",

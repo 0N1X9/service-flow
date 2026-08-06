@@ -81,19 +81,23 @@ Dashboard
 
             <div class="col-md-6 col-xl-3">
                 <div class="sf-card stat-card mb-0">
-                    <h5 class="mb-3">
-                        <i class="bi bi-stars text-purple me-2"></i>AI Usage
-                    </h5>
 
                     {% if subscription.is_active %}
+                    <h5 class="mb-3">
+                        <i class="bi bi-stars text-purple me-2"></i>Premium
+                    </h5>
 
                     <div class="alert alert-success mb-3">
                         <i class="bi bi-check-circle-fill me-2"></i>Unlimited AI Quotes
                     </div>
-                    <br>
-                    <p class="text-muted-small">Premium benefits.</p>
+                    <a href="{% url 'payments:portal' %}" class="btn btn-primary upgrade-btn mt-2 mb-1 px-4">
+                        <i class="bi bi-gear me-2"></i>Manage Subscription
+                    </a>
 
                     {% else %}
+                    <h5 class="mb-3">
+                        <i class="bi bi-stars text-purple me-2"></i>AI Usage
+                    </h5>
 
                     <p class="text-muted-small"><strong>{{ quote_count }}</strong> out of
                         <strong>{{ monthly_limit }}</strong>
