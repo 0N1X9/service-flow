@@ -25,3 +25,14 @@ def create_checkout_session(request):
             "user_id": request.user.id,
         },
     )
+
+
+def create_customer_portal_session(request):
+    subscription = request.user.subscription
+
+    return stripe.billing_portal.Session.create(
+        customer=subscription.stripe_customer_id,
+        return_url=request.build_absolute_uri(
+            reverse("core:dashboard")
+        ),
+    )
