@@ -97,34 +97,46 @@ def stripe_webhook(request):
     logger.error("5. Event type = %s", event["type"])
 
     if event["type"] == "checkout.session.completed":
-        session = event["data"]["object"]
-
-        customer_id = session.get("customer")
-        metadata = session.get("metadata") or {}
-        user_id = metadata.get("user_id")
-        logger.error("6. user_id=%s", user_id)
-        if not user_id:
-            logger.error(
-                "Stripe webhook missing user_id metadata: %s",
-                json.dumps(session, default=str),
-            )
-            return HttpResponse(status=400)
-        logger.error("7. Loading user")
         try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            logger.error("Stripe webhook user not found: %s", user_id)
-            return HttpResponse(status=400)
-        logger.error("8. User loaded")
+            session = event["data"]["object"]
 
-        subscription, _ = Subscription.objects.get_or_create(user=user)
-        logger.error("9. Subscription object ready")
-        if customer_id:
-            subscription.stripe_customer_id = customer_id
-        logger.error("10. Saving subscription")
-        subscription.plan = "premium"
-        subscription.is_active = True
-        subscription.save()
-        logger.error("11. Subscription saved")
+            customer_id = session.get("customer")
+            metadata = session.get("metadata") or {}
+            user_id = metadata.get("user_id")
+
+            logger.error("6. user_id=%s", user_id)
+
+            if not user_id:
+                logger.error("Missing user_id")
+                return HttpResponse(status=400)
+
+            logger.error("7. Loading user")
+
+            user = User.objects.get(id=user_id)
+
+            logger.error("8. User loaded")
+
+            subscription, created = Subscription.objects.get_or_create(user=user)
+
+            logger.error(
+                "9. Subscription ready created=%s",
+                created,
+            )
+
+            if customer_id:
+                subscription.stripe_customer_id = customer_id
+
+            subscription.plan = "premium"
+            subscription.is_active = True
+
+            logger.error("10. Saving")
+
+            subscription.save()
+
+            logger.error("11. Saved")
+
+        except Exception:
+            logger.exception("WEBHOOK CRASH")
+            raise
 
     return HttpResponse(status=200)
