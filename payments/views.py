@@ -2,29 +2,28 @@ import json
 import logging
 
 import stripe
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from .models import Subscription
-
-logger = logging.getLogger(__name__)
-
-from .stripe_service import (
-    create_checkout_session,
-    create_customer_portal_session,
-)
-
 from .services import (
     FREE_MONTHLY_QUOTE_LIMIT,
     monthly_quote_count,
     is_premium,
 )
+from .stripe_service import (
+    create_checkout_session,
+    create_customer_portal_session,
+)
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -75,9 +74,23 @@ def cancel(request):
 
 
 @csrf_exempt
+@require_POST
 def stripe_webhook(request):
     payload = request.body
-    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+    sig_header = request.headers.get("Stripe-Signature")
+
+    if not sig_header:
+        stripe_headers = {
+            header: value
+            for header, value in request.headers.items()
+            if "stripe" in header.lower()
+        }
+        logger.error(
+            "Stripe webhook request missing Stripe-Signature header. "
+            "Found Stripe-related headers: %s",
+            stripe_headers,
+        )
+        return HttpResponse(status=400)
 
     try:
         event = stripe.Webhook.construct_event(
@@ -85,7 +98,12 @@ def stripe_webhook(request):
             sig_header,
             settings.STRIPE_WEBHOOK_SECRET,
         )
-    except (ValueError, stripe.error.SignatureVerificationError, stripe.error.StripeError, TypeError) as exc:
+    except (
+        ValueError,
+        stripe.error.SignatureVerificationError,
+        stripe.error.StripeError,
+        TypeError,
+    ):
         logger.exception("Stripe webhook verification failed")
         return HttpResponse(status=400)
 

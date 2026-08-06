@@ -31,8 +31,13 @@ urlpatterns = [
         name="cancel",
     ),
     path(
-        "webhook/",
+        "webhook",
         views.stripe_webhook,
         name="stripe_webhook",
+    ),
+    path(
+        "webhook/",
+        views.stripe_webhook,
+        name="stripe_webhook_slash",
     ),
 ]
