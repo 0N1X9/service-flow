@@ -1,15 +1,19 @@
+import json
+import logging
+
+import stripe
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.shortcuts import redirect
-import json
-import stripe
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from django.contrib.auth.models import User
 from .models import Subscription
+
+logger = logging.getLogger(__name__)
 
 from .stripe_service import (
     create_checkout_session,
@@ -81,17 +85,29 @@ def stripe_webhook(request):
             sig_header,
             settings.STRIPE_WEBHOOK_SECRET,
         )
-    except (ValueError, stripe.error.SignatureVerificationError):
+    except (ValueError, stripe.error.SignatureVerificationError, stripe.error.StripeError, TypeError) as exc:
+        logger.exception("Stripe webhook verification failed")
         return HttpResponse(status=400)
 
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
 
         customer_id = session.get("customer")
+        metadata = session.get("metadata") or {}
+        user_id = metadata.get("user_id")
 
-        user_id = session["metadata"]["user_id"]
+        if not user_id:
+            logger.error(
+                "Stripe webhook missing user_id metadata: %s",
+                json.dumps(session, default=str),
+            )
+            return HttpResponse(status=400)
 
-        user = User.objects.get(id=user_id)
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            logger.error("Stripe webhook user not found: %s", user_id)
+            return HttpResponse(status=400)
 
         subscription, _ = Subscription.objects.get_or_create(user=user)
 
