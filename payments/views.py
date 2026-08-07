@@ -100,11 +100,12 @@ def stripe_webhook(request):
         try:
             session = event["data"]["object"]
 
-            customer_id = session.get("customer")
-            metadata = session.get("metadata") or {}
+            customer_id = session.customer
+            metadata = session.metadata or {}
             user_id = metadata.get("user_id")
 
             logger.error("6. user_id=%s", user_id)
+            logger.error("6b. customer_id=%s", customer_id)
 
             if not user_id:
                 logger.error("Missing user_id")
