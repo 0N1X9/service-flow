@@ -76,15 +76,9 @@ def cancel(request):
 @csrf_exempt
 @require_POST
 def stripe_webhook(request):
-    logger.error("1. Webhook reached")
-
     payload = request.body
 
-    logger.error("2. Payload received")
-
     sig_header = request.headers.get("Stripe-Signature")
-
-    logger.error("3. Header received")
 
     event = stripe.Webhook.construct_event(
         payload,
@@ -92,52 +86,30 @@ def stripe_webhook(request):
         settings.STRIPE_WEBHOOK_SECRET,
     )
 
-    logger.error("4. Event constructed")
-
-    logger.error("5. Event type = %s", event["type"])
-
     if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+
+        customer_id = session.customer
+        metadata = session.metadata or {}
+        user_id = metadata["user_id"]
+
+        if not user_id:
+            logger.error("Missing user_id")
+            return HttpResponse(status=400)
+
         try:
-            session = event["data"]["object"]
-
-            customer_id = session.customer
-            metadata = session.metadata or {}
-            user_id = metadata["user_id"]
-
-            logger.error("6. user_id=%s", user_id)
-            logger.error("6b. customer_id=%s", customer_id)
-
-            if not user_id:
-                logger.error("Missing user_id")
-                return HttpResponse(status=400)
-
-            logger.error("7. Loading user")
-
             user = User.objects.get(id=user_id)
+        except (User.DoesNotExist, ValueError, TypeError):
+            logger.error("Stripe webhook user lookup failed: %s", user_id)
+            return HttpResponse(status=400)
 
-            logger.error("8. User loaded")
+        subscription, created = Subscription.objects.get_or_create(user=user)
 
-            subscription, created = Subscription.objects.get_or_create(user=user)
+        if customer_id:
+            subscription.stripe_customer_id = customer_id
 
-            logger.error(
-                "9. Subscription ready created=%s",
-                created,
-            )
-
-            if customer_id:
-                subscription.stripe_customer_id = customer_id
-
-            subscription.plan = "premium"
-            subscription.is_active = True
-
-            logger.error("10. Saving")
-
-            subscription.save()
-
-            logger.error("11. Saved")
-
-        except Exception:
-            logger.exception("WEBHOOK CRASH")
-            raise
+        subscription.plan = "premium"
+        subscription.is_active = True
+        subscription.save()
 
     return HttpResponse(status=200)
