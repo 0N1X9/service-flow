@@ -102,7 +102,7 @@ def stripe_webhook(request):
 
             customer_id = session.customer
             metadata = session.metadata or {}
-            user_id = metadata.get("user_id")
+            user_id = metadata["user_id"]
 
             logger.error("6. user_id=%s", user_id)
             logger.error("6b. customer_id=%s", customer_id)
