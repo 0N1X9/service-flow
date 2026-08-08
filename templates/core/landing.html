@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}
+Service Flow AI — Simplify Your Service Business
+{% endblock %}
+
+{% block content %}
+
+<!-- ===========================
+     HERO
+=========================== -->
+
+<section class="landing-hero py-5">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <span class="badge bg-light text-purple px-3 py-2 mb-4">
+                <i class="bi bi-stars me-2"></i>AI-powered service management
+            </span>
+
+            <h1 class="display-4 fw-bold mb-4">
+                Run your business. <span class="text-purple">Let AI handle the busywork.</span>
+            </h1>
+
+            <p class="lead text-muted mb-4">
+                Service Flow AI helps small service businesses manage
+                clients, jobs and quotes from one simple workspace.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3">
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg px-4">
+                    Get Started <i class="bi bi-arrow-right ms-2"></i></a>
+
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg px-4">Log In</a>
+            </div>
+
+            <p class="text-muted-small mt-4 mb-0">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                Start free — no complicated setup.
+            </p>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="landing-dashboard-preview sf-card">
+                <div class="landing-preview-header">
+                    <div>
+                        <span class="landing-preview-dot"></span>
+                        <span class="landing-preview-dot"></span>
+                        <span class="landing-preview-dot"></span>
+                    </div>
+
+                    <small class="text-muted-small">Service Flow AI</small>
+                </div>
+
+                <div class="landing-preview-content">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 class="mb-1">Welcome back 👋</h4>
+                            <p class="text-muted-small mb-0">Here's an overview of your business.</p>
+                        </div>
+
+                        <div class="stat-icon">
+                            <i class="bi bi-stars"></i>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-4">
+                            <div class="landing-mini-stat">
+                                <small>Clients</small>
+                                <strong>24</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="landing-mini-stat">
+                                <small>Jobs</small>
+                                <strong>18</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="landing-mini-stat">
+                                <small>Quotes</small>
+                                <strong>12</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="landing-ai-preview">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <strong><i class="bi bi-stars text-purple me-2"></i>AI Quote Generator</strong>
+                            <span class="badge text-bg-light">AI</span>
+                        </div>
+
+                        <p class="text-muted-small mb-3">Turn job details into professional quotes in seconds.</p>
+
+                        <div class="landing-ai-line"></div>
+                        <div class="landing-ai-line short"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     FEATURES
+=========================== -->
+
+<section class="landing-section py-5">
+    <div class="text-center mb-5">
+        <p class="text-purple fw-semibold mb-2">EVERYTHING IN ONE PLACE</p>
+
+        <h2>Less admin. More time for your business.</h2>
+
+        <p class="text-muted mx-auto landing-section-intro">
+            Service Flow AI brings the everyday tools of a service
+            business together in one straightforward workspace.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="sf-card landing-feature-card h-100">
+                <div class="landing-feature-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+
+                <h4>Manage Clients</h4>
+
+                <p class="text-muted mb-0">
+                    Keep customer details organised and accessible whenever you need them.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="sf-card landing-feature-card h-100">
+                <div class="landing-feature-icon">
+                    <i class="bi bi-tools"></i>
+                </div>
+
+                <h4>Track Jobs</h4>
+
+                <p class="text-muted mb-0">
+                    Keep track of your jobs, their status and recent
+                    activity without relying on spreadsheets or notes.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="sf-card landing-feature-card h-100">
+                <div class="landing-feature-icon premium">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <h4>Generate Quotes with AI</h4>
+
+                <p class="text-muted mb-0">
+                    Turn a job description into a professional quote
+                    with the help of AI.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     AI QUOTE FEATURE
+=========================== -->
+
+<section class="landing-section py-5">
+    <div class="sf-card landing-ai-section">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="badge landing-premium-badge mb-3">
+                    <i class="bi bi-stars me-2"></i>AI-powered
+                </span>
+
+                <h2 class="mb-3">Stop spending time writing quotes.</h2>
+
+                <p class="text-muted mb-4">
+                    Describe the job, let Service Flow AI generate the
+                    quote, and spend your time where it actually matters:
+                    running your business.
+                </p>
+
+                <ul class="list-unstyled landing-benefits">
+                    <li>
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        Generate professional quotes quickly
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        Regenerate quotes when you want a different result
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                        Keep quotes connected to your jobs and clients
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="landing-quote-preview">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <small class="text-muted-small">AI GENERATED QUOTE</small>
+
+                            <h5 class="mb-0 mt-1">Kitchen Electrical Work</h5>
+                        </div>
+
+                        <i class="bi bi-stars text-purple fs-3"></i>
+                    </div>
+
+                    <div class="landing-quote-content">
+                        <p>
+                            Supply and installation of additional
+                            electrical sockets, including materials,
+                            labour and testing.
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <span class="text-muted-small">Estimated total</span>
+                            <strong class="fs-4 text-purple">£450</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     PRICING
+=========================== -->
+
+<section class="landing-section py-5">
+    <div class="text-center mb-5">
+        <p class="text-purple fw-semibold mb-2">SIMPLE PRICING</p>
+
+        <h2>Start free. Upgrade when you need more.</h2>
+
+        <p class="text-muted mx-auto landing-section-intro">
+            No complicated plans. Choose the option that fits your business.
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="sf-card landing-pricing-card h-100">
+                <h4>Free</h4>
+
+                <p class="text-muted">Get started with the essentials.</p>
+
+                <div class="landing-price">£0<span>/ month</span>
+                </div>
+
+                <ul class="list-unstyled landing-pricing-list">
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        Unlimited Client management
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        Unlimited Job management
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        3 AI quotes per month
+                    </li>
+
+                </ul>
+
+                <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary w-100 mt-auto">
+                    Get Started
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-5 col-lg-4">
+            <div class="sf-card landing-pricing-card premium-card h-100">
+                <span class="landing-popular-badge">Popular</span>
+                <h4>Premium <i class="bi bi-stars text-purple ms-1"></i></h4>
+
+                <p class="text-muted">Unlock the full AI experience.</p>
+
+                <div class="landing-price">£9.99 <span>/ month</span>
+                </div>
+
+                <ul class="list-unstyled landing-pricing-list">
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        Everything in Free
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        Unlimited AI quotes
+                    </li>
+
+                    <li>
+                        <i class="bi bi-check2 text-success"></i>
+                        All upcoming Smart Features
+                    </li>
+                </ul>
+
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary w-100 mt-auto">
+                    Start Premium
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     FINAL CTA
+=========================== -->
+
+<section class="landing-cta py-5">
+    <div class="sf-card text-center">
+        <div class="py-4">
+            <i class="bi bi-stars text-purple landing-cta-icon"></i>
+            <h2 class="mb-3">Ready to simplify your workflow?</h2>
+
+            <p class="text-muted mx-auto landing-cta-text">
+                Spend less time managing paperwork and more time
+                doing what you do best.
+            </p>
+
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg px-5 mt-2">
+                Create Your Free Account <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

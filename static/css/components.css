@@ -404,3 +404,282 @@
         font-size: 0.8rem;
     }
 }
+
+/* ===========================
+   LANDING PAGE
+=========================== */
+
+.landing-hero {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+}
+
+.landing-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+}
+
+.landing-section {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+}
+
+.landing-section-intro {
+    max-width: 650px;
+    margin-top: 1rem;
+}
+
+
+/* Dashboard preview */
+
+.landing-dashboard-preview {
+    padding: 0;
+    overflow: hidden;
+    transform: rotate(1deg);
+}
+
+.landing-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(79, 70, 229, 0.03);
+}
+
+.landing-preview-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border);
+    margin-right: 5px;
+}
+
+.landing-preview-content {
+    padding: 1.5rem;
+}
+
+.landing-mini-stat {
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem;
+}
+
+.landing-mini-stat small {
+    display: block;
+    color: #6B7280;
+    margin-bottom: 0.25rem;
+}
+
+.landing-mini-stat strong {
+    font-size: 1.35rem;
+}
+
+.landing-ai-preview {
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    background: rgba(139, 92, 246, 0.05);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.landing-ai-line {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(139, 92, 246, 0.15);
+    margin-top: 0.65rem;
+}
+
+.landing-ai-line.short {
+    width: 65%;
+}
+
+
+/* Feature cards */
+
+.landing-feature-card {
+    padding: 2rem;
+}
+
+.landing-feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.landing-feature-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.landing-feature-icon.premium {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--premium);
+}
+
+
+/* AI section */
+
+.landing-ai-section {
+    padding: 3rem;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139, 92, 246, 0.07),
+            rgba(79, 70, 229, 0.03)
+        );
+}
+
+.landing-premium-badge {
+    background: rgba(139, 92, 246, 0.12);
+    color: var(--premium);
+    padding: 0.55rem 0.8rem;
+}
+
+.landing-benefits li {
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.landing-benefits i {
+    margin-right: 0.6rem;
+}
+
+.landing-quote-preview {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.landing-quote-content {
+    background: rgba(79, 70, 229, 0.03);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+
+.landing-quote-content p {
+    line-height: 1.7;
+}
+
+
+/* Pricing */
+
+.landing-pricing-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.landing-pricing-card.premium-card {
+    border: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.landing-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 1.5rem 0;
+}
+
+.landing-price span {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #6B7280;
+}
+
+.landing-pricing-list {
+    margin-bottom: 2rem;
+}
+
+.landing-pricing-list li {
+    margin-bottom: 0.9rem;
+}
+
+.landing-pricing-list i {
+    margin-right: 0.5rem;
+}
+
+.landing-popular-badge {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: var(--premium);
+    color: white;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* Final CTA */
+
+.landing-cta {
+    padding-bottom: 5rem !important;
+}
+
+.landing-cta .sf-card {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(79, 70, 229, 0.08),
+            rgba(139, 92, 246, 0.08)
+        );
+}
+
+.landing-cta-icon {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.landing-cta-text {
+    max-width: 550px;
+}
+
+
+/* Responsive */
+
+@media screen and (max-width: 991px) {
+
+    .landing-hero {
+        min-height: auto;
+        padding-top: 3rem !important;
+    }
+
+    .landing-dashboard-preview {
+        transform: none;
+    }
+
+    .landing-ai-section {
+        padding: 2rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .landing-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .landing-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .landing-ai-section,
+    .landing-pricing-card {
+        padding: 1.5rem;
+    }
+}
