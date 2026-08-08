@@ -1,49 +1,37 @@
-# OpenAI calls
-import os
-
 from django.conf import settings
-from .mock_generator import generate_mock_quote
 
-from .prompts import SYSTEM_PROMPT
-from openai import OpenAI
-from openai import OpenAIError
+from .providers.gemini import GeminiProvider
+from .providers.groq import GroqProvider
+from .providers.mock import MockProvider
+from .providers.openai_provider import OpenAIProvider
+from .providers.openrouter import OpenRouterProvider
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+PROVIDERS = {
+    "gemini": GeminiProvider,
+    "groq": GroqProvider,
+    "openrouter": OpenRouterProvider,
+    "openai": OpenAIProvider,
+    "mock": MockProvider,
+}
+
+
+def get_provider():
+    """Return the configured AI provider."""
+    provider_name = settings.AI_PROVIDER.lower()
+
+    provider_class = PROVIDERS.get(provider_name)
+
+    if provider_class is None:
+        raise ValueError(
+            f"Unknown AI provider: {provider_name}"
+        )
+
+    return provider_class()
 
 
 def generate_quote(service_request):
-    """
-    Generates a quotation.
+    """Generate a quote using the configured AI provider."""
+    provider = get_provider()
 
-    In development, a mock quotation is returned.
-    In production, OpenAI will be used.
-    """
-    if settings.DEBUG:
-        return generate_mock_quote(service_request)
-
-    prompt = f"""
-    Client:
-    {service_request.client.name}
-
-    Job Title:
-    {service_request.title}
-
-    Description:
-    {service_request.description}
-
-    Estimated Price:
-    {service_request.estimated_price}
-    """
-
-    try:
-        response = client.responses.create(
-            model=os.getenv("OPENAI_MODEL"),
-            instructions=SYSTEM_PROMPT,
-            input=prompt,
-        )
-
-        return response.output_text
-
-    except Exception as e:
-        print("OpenAI Error:", e)
-        return generate_mock_quote(service_request)
+    return provider.generate_quote(service_request)
