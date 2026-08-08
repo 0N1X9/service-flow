@@ -1,19 +1,19 @@
 from datetime import date
 
+from .base import AIProvider
 
-def generate_mock_quote(service_request):
-    """
-    Generates a realistic quotation for development.
-    """
 
-    price = (
-        f"£{service_request.estimated_price}"
-        if service_request.estimated_price
-        else "To be confirmed"
-    )
+class MockProvider(AIProvider):
+    """Development provider that generates a realistic demo quote."""
 
-    return f"""
+    def generate_quote(self, service_request):
+        price = (
+            f"£{service_request.estimated_price}"
+            if service_request.estimated_price
+            else "To be confirmed"
+        )
 
+        return f"""
 We are very sorry, but the AI service is temporarily unavailable.
 A demo quote has been generated instead.
 
