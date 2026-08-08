@@ -10,6 +10,16 @@ from services.models import ServiceRequest
 from .forms import BusinessProfileForm
 
 
+def landing(request):
+    if request.user.is_authenticated:
+        return redirect("core:dashboard")
+
+    return render(
+        request,
+        "core/landing.html",
+    )
+
+
 @login_required
 def dashboard(request):
     profile = request.user.businessprofile
@@ -26,14 +36,6 @@ def dashboard(request):
         service_request__client__business=profile
     ).count()
 
-    monthly_limit = None if subscription and subscription.is_active else 3
-    if monthly_limit:
-        usage_percent = min(
-            int((quote_count / monthly_limit) * 100),
-            100,
-        )
-    else:
-        usage_percent = 100
     recent_jobs = (
         ServiceRequest.objects.filter(
             client__business=profile
@@ -41,13 +43,14 @@ def dashboard(request):
         .select_related("client")
         .order_by("-updated_at")[:6]
     )
+
     if subscription and subscription.is_active:
         monthly_limit = None
         usage_percent = 0
         remaining_quotes = None
     else:
         monthly_limit = 3
-        usage_percent = min((quote_count / monthly_limit) * 100, 100)
+        usage_percent = min(int((quote_count / monthly_limit) * 100), 100)
         remaining_quotes = max(monthly_limit - quote_count, 0)
 
     context = {
