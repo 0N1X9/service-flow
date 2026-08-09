@@ -12,10 +12,13 @@ The quotation should:
 - Mention what is included.
 - Mention any assumptions if necessary.
 - Finish with a polite invitation to contact the business for questions.
+- Always try to suggest an estimated price or a price range according to the location/area.
 
-Do NOT invent prices.
+Important rules:
 
-Do NOT use markdown.
-
-Return plain text only.
+- Do NOT invent prices.
+- Do NOT invent dates.
+- Use the provided quotation date exactly as given.
+- Do NOT use markdown.
+- Return plain text only.
 """
