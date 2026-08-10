@@ -5,6 +5,7 @@ from .providers.groq import GroqProvider
 from .providers.mock import MockProvider
 from .providers.openai_provider import OpenAIProvider
 from .providers.openrouter import OpenRouterProvider
+from .result import QuoteGenerationResult
 
 
 PROVIDERS = {
@@ -47,20 +48,35 @@ def generate_quote(service_request):
 
     provider = get_provider()
 
-    return provider.generate_quote(service_request)
+    if not provider.is_available():
+        raise RuntimeError(
+            f"AI provider '{settings.AI_PROVIDER}' is not configured."
+        )
+
+    return QuoteGenerationResult(
+        content=provider.generate_quote(service_request),
+        provider=settings.AI_PROVIDER.lower(),
+    )
 
 
 def generate_quote_auto(service_request):
     """Generate a quote using automatic provider fallback."""
 
     for provider_name in AUTO_PROVIDER_ORDER:
-        provider = PROVIDERS[provider_name]()
-
-        if not provider.is_available():
-            continue
-
         try:
-            return provider.generate_quote(service_request)
+            provider = PROVIDERS[provider_name]()
+
+            if not provider.is_available():
+                print(
+                    f"AI provider '{provider_name}' is not configured. "
+                    "Skipping."
+                )
+                continue
+
+            return QuoteGenerationResult(
+                content=provider.generate_quote(service_request),
+                provider=provider_name,
+            )
 
         except Exception as exc:
             print(
