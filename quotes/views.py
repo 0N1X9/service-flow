@@ -31,12 +31,24 @@ def quote_generate(request, service_id):
         )
         return redirect("payments:upgrade")
 
-    quote_text = generate_quote(service)
+    try:
+        generation_result = generate_quote(service)
+
+    except Exception:
+        messages.error(
+            request,
+            "The AI quote service is temporarily unavailable. "
+            "Please try again later.",
+        )
+        return redirect("services:list")
+
+    quote_text = generation_result.content
 
     quote, created = Quote.objects.update_or_create(
         service_request=service,
         defaults={
             "content": quote_text,
+            "provider": generation_result.provider,
             "price": service.estimated_price,
             "is_outdated": False,
         },

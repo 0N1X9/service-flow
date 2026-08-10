@@ -1,10 +1,48 @@
+from datetime import date
+from openai import OpenAI
+from django.conf import settings
+
 from .base import AIProvider
+from ..prompts import SYSTEM_PROMPT
 
 
 class GroqProvider(AIProvider):
     """Groq implementation of the AI quote provider."""
 
-    def generate_quote(self, service_request):
-        raise NotImplementedError(
-            "Groq provider has not been configured yet."
+    def __init__(self):
+        self.client = OpenAI(
+            api_key=settings.GROQ_API_KEY,
+            base_url="https://api.groq.com/openai/v1",
         )
+
+    def is_available(self):
+        return bool(
+            settings.GROQ_API_KEY
+            and settings.GROQ_MODEL
+        )
+
+    def generate_quote(self, service_request):
+        prompt = f"""
+Date:
+{date.today():%d %B %Y}
+
+Client:
+{service_request.client.name}
+
+Job Title:
+{service_request.title}
+
+Description:
+{service_request.description}
+
+Estimated Price:
+{service_request.estimated_price}
+"""
+
+        response = self.client.responses.create(
+            model=settings.GROQ_MODEL,
+            instructions=SYSTEM_PROMPT,
+            input=prompt,
+        )
+
+        return response.output_text

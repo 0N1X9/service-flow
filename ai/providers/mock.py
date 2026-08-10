@@ -6,6 +6,9 @@ from .base import AIProvider
 class MockProvider(AIProvider):
     """Development provider that generates a realistic demo quote."""
 
+    def is_available(self):
+        return True
+
     def generate_quote(self, service_request):
         price = (
             f"£{service_request.estimated_price}"

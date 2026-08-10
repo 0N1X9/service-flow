@@ -12,6 +12,11 @@ class Quote(models.Model):
 
     content = models.TextField()
 
+    provider = models.CharField(
+        max_length=50,
+        default="unknown",
+    )
+
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,

@@ -1,5 +1,5 @@
-import os
-
+from datetime import date
+from django.conf import settings
 from openai import OpenAI
 
 from .base import AIProvider
@@ -11,11 +11,20 @@ class OpenAIProvider(AIProvider):
 
     def __init__(self):
         self.client = OpenAI(
-            api_key=os.getenv("OPENAI_API_KEY")
+            api_key=settings.OPENAI_API_KEY
+        )
+
+    def is_available(self):
+        return bool(
+            settings.OPENAI_API_KEY
+            and settings.OPENAI_MODEL
         )
 
     def generate_quote(self, service_request):
         prompt = f"""
+Date:
+{date.today():%d %B %Y}
+
 Client:
 {service_request.client.name}
 
@@ -30,7 +39,7 @@ Estimated Price:
 """
 
         response = self.client.responses.create(
-            model=os.getenv("OPENAI_MODEL"),
+            model=settings.OPENAI_MODEL,
             instructions=SYSTEM_PROMPT,
             input=prompt,
         )
