@@ -14,6 +14,12 @@ class GeminiProvider(AIProvider):
             api_key=settings.GEMINI_API_KEY
         )
 
+    def is_available(self):
+        return bool(
+            settings.GEMINI_API_KEY
+            and settings.GEMINI_MODEL
+        )
+
     def generate_quote(self, service_request):
         prompt = f"""
 Date:

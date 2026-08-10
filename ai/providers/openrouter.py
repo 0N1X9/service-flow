@@ -15,6 +15,12 @@ class OpenRouterProvider(AIProvider):
             base_url="https://openrouter.ai/api/v1",
         )
 
+    def is_available(self):
+        return bool(
+            settings.OPENROUTER_API_KEY
+            and settings.OPENROUTER_MODEL
+        )
+
     def generate_quote(self, service_request):
         prompt = f"""
 Date:

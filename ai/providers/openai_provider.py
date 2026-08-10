@@ -14,6 +14,12 @@ class OpenAIProvider(AIProvider):
             api_key=settings.OPENAI_API_KEY
         )
 
+    def is_available(self):
+        return bool(
+            settings.OPENAI_API_KEY
+            and settings.OPENAI_MODEL
+        )
+
     def generate_quote(self, service_request):
         prompt = f"""
 Date:

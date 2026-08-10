@@ -16,6 +16,15 @@ PROVIDERS = {
 }
 
 
+AUTO_PROVIDER_ORDER = [
+    "gemini",
+    "groq",
+    "openrouter",
+    "openai",
+    "mock",
+]
+
+
 def get_provider():
     """Return the configured AI provider."""
     provider_name = settings.AI_PROVIDER.lower()
@@ -32,6 +41,33 @@ def get_provider():
 
 def generate_quote(service_request):
     """Generate a quote using the configured AI provider."""
+
+    if settings.AI_PROVIDER.lower() == "auto":
+        return generate_quote_auto(service_request)
+
     provider = get_provider()
 
     return provider.generate_quote(service_request)
+
+
+def generate_quote_auto(service_request):
+    """Generate a quote using automatic provider fallback."""
+
+    for provider_name in AUTO_PROVIDER_ORDER:
+        provider = PROVIDERS[provider_name]()
+
+        if not provider.is_available():
+            continue
+
+        try:
+            return provider.generate_quote(service_request)
+
+        except Exception as exc:
+            print(
+                f"AI provider '{provider_name}' failed: {exc}"
+            )
+            continue
+
+    raise RuntimeError(
+        "All AI quote providers are unavailable."
+    )

@@ -15,6 +15,12 @@ class GroqProvider(AIProvider):
             base_url="https://api.groq.com/openai/v1",
         )
 
+    def is_available(self):
+        return bool(
+            settings.GROQ_API_KEY
+            and settings.GROQ_MODEL
+        )
+
     def generate_quote(self, service_request):
         prompt = f"""
 Date:
