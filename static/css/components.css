@@ -24,17 +24,12 @@
 }
 
 .brand-logo {
-    width: 52px;
-    height: 52px;
+    width: 69px;
+    height: 64px;
     border-radius: 12px;
-    background: var(--premium);
-    color: white;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-size: 1.35rem;
 }
 
 .brand-title {

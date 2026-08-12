@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Service Flow AI{% endblock %}</title>
-
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
     <script>
         (function () {
             const theme = localStorage.getItem("theme") || "system";
@@ -43,7 +44,7 @@
             <!-- Brand -->
             <a class="navbar-brand me-0 pe-1" href="{% url 'core:dashboard' %}">
                 <div class="brand-logo">
-                    <i class="bi bi-robot"></i>
+                    <img src="{% static 'images/logo.png' %}" alt="Service Flow AI Logo" class="img-fluid">
                 </div>
 
                 <div>
