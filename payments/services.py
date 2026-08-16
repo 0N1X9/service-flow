@@ -2,6 +2,8 @@ from datetime import date
 
 from quotes.models import Quote
 
+from .models import Subscription
+
 FREE_MONTHLY_QUOTE_LIMIT = 3
 
 
@@ -9,11 +11,18 @@ def is_premium(user):
     """
     Returns True if the user has an active Premium subscription.
     """
-    return (
-        hasattr(user, "subscription")
-        and user.subscription.is_active
-        and user.subscription.plan == "premium"
-    )
+    if user is None or getattr(user, "is_anonymous", False):
+        return False
+
+    user_id = getattr(user, "pk", None)
+    if user_id is None:
+        return False
+
+    return Subscription.objects.filter(
+        user_id=user_id,
+        plan="premium",
+        is_active=True,
+    ).exists()
 
 
 def monthly_quote_count(user):

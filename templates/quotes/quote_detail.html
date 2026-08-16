@@ -45,7 +45,7 @@
 
     {% if edit_mode %}
 
-    <form method="post">
+    <form method="post" aria-label="Edit quote content">
         {% csrf_token %}
 
         {{ form.content.label_tag }}
